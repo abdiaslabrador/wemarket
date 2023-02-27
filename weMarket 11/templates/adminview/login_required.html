@@ -1,0 +1,41 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block complement %}
+
+
+{% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Inicio</li>
+{% endblock %}
+{% block maincontent %}
+
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    <strong>Error. Usted no tiene los permisos necesarios para entrar en esta página, inicie sesión en una cuenta nueva.</strong>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <img class="" alt="avatar" img src="{% static 'img/permiso.jpg'%}" width="390" height="390" alt="">
+                    </div>
+                    <div class="col-sm-6">
+                      <p align="right"><img class="" alt="avatar" img src="{% static 'img/stop.png'%}" width="470" height="390" alt=""></p>
+                    </div>
+                  </div>
+            </div><!-- Sticky Footer -->
+          </div>
+        </div>
+        <p class="small text-center text-muted my-5">
+          <em>weMarket | Página de administrador</em>
+        </p>
+
+{% endblock %}

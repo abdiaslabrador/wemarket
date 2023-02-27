@@ -1,0 +1,141 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+          </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Diseño / Escoger plantillas</li>{% endblock %}
+
+
+
+{% block maincontent %}
+  
+ 
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:design'%}"><img class="card-img-top" src="{% static 'img/palette.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:choosedesign'%}"><img class="card-img-top" src="{% static 'img/internet.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:edit_design' %}"><img class="card-img-top" src="{% static 'img/pencil.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+
+
+  <!-- Page Content -->
+  
+
+<div class="container emp-profile"><hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-img">
+                            <div class="list-group-item">
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/weMarketvec.png'%}" alt="">
+                                </div>
+                            <div class="list-group">
+                                <div class="file btn btn-lg btn-primary">
+                                    {{enterprise.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                      <form method="POST" action='' enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="col-md-5">
+                        {% if isNew %}
+                          <h5><strong>Agregar miembro de equipo:</strong></h5>
+                        {% else %}
+                          <h5><strong>Editar miembro de equipo:</strong></h5>
+                        {% endif %}
+                        <div class="profile-img">
+                            <div class="list-group-item">
+                              {% if isNew %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/1080x1080.png'%}" alt="">
+                                  <h6>Resolución recomendada:</h6>
+                                  <h7> 1080*1080px.</h7>
+                              {% else %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% url 'contact:preload_image' pk=member.id option=1 %}" alt="">
+                              {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                  <!--Full name-->
+                  <div class="col-md-8">
+                    <strong>{{form.image_path}}</strong>
+                    <hr>
+                    <div class="form-group">
+                      <strong>Nombre:</strong>
+                      <input class= "form-control" type="text" name="name" value="{{member.name}}" >
+                    </div>
+
+            <!--Date of birth-->
+                    <strong>Cargo:</strong>
+                    <div class="form-group">
+                      <input class= "form-control" type="text" name="position" value="{{member.position}}" >
+                    </div>
+
+            <!--Date of birth-->
+                    <strong>Descripción:</strong>
+                    <div class="form-group">
+                      <textarea class= "form-control"  rows="6" name="description" 
+                      value="{{member.description}}">{{member.description}}</textarea>
+                    </div>
+
+            <!--Username and email is same in this case-->
+                    <strong>Correo electrónico:</strong>
+                    <div class="form-group">
+                      <input class= "form-control" type="email" name="email" value="{{member.email}}" >
+                    </div>
+                <button class="btn btn-primary " type="submit">Guardar cambios</button>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <a href="javascript:history.back()"><h6>Volver atrás</h6></a>
+                  </div>
+                </div>
+                </div>
+            </form>
+        </div>
+      </div>
+      <hr>
+    <p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+{% endblock %}

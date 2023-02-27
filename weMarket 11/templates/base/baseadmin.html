@@ -1,0 +1,142 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Vista de administrador</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+
+</head>
+
+<body>
+{% block navbar %}
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'adminview:adminview' %}">Página de administrador</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          {% block tabcurrent %}
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+          </li>
+          {% endblock %}
+          <li class="nav-item active">
+            <a href="{% url 'home_app:index' %}" class="btn btn-primary btn-user btn-block"><img src="{% static 'img/favorites.png'%}"width="20px" height="20px" />
+                      Volver a la tienda
+            </a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endblock %}
+
+<div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'adminview:adminview' %}">Página de administrador</a>
+          </li>
+          {% block breadcrumb %}<li class="breadcrumb-item active">Categorías</li>{% endblock %}
+          {% block complement %}
+          {% endblock %}
+        </ol>
+
+{% block maincontent %}
+
+{% endblock %}
+
+{% block modals %}
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">¿Está seguro?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">¿Desea continuar?.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="myuser/login">¡Si quiero!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+
+  <!-- Page level plugins -->
+  <!-- <script src="{% static 'vendor/chart.js/Chart.min.js'%}"></script> -->
+  <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+  <!-- <script src="{% static 'vendor/datatables/jquery.dataTables.min.js'%}"></script> -->
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js'%}"></script>
+
+   Page level custom scripts
+  <script src="{% static 'js/demo/chart-area-demo.js'%}"></script>
+  <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+  <script src="{% static 'js/demo/chart-bar-demo.js'%}"></script>
+  <script src="{% static 'js/demo/chart-pie-demo.js'%}"></script>
+  <script src="{% static 'js/bootstrap.min.js'%}"></script>
+  <script src="{% static 'js/search.js'%}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js'%}"></script>
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.css'%}" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block javascript %}
+
+{% endblock %}
+
+</body>
+
+</html>

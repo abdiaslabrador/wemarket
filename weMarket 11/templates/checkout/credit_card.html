@@ -1,0 +1,147 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+<title>{{enterprise.name}} | Carrito</title>
+{% endblock %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+{% block maincontent %}
+<div class="card">
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="{% static 'img/tarjeta.jpg'%}" width="600px" height="500px" />
+        </div>
+        <div class="col-sm-6">
+          <h5 align="center"><strong>Total a pagar: {{cart.total}}</strong></h5>
+            
+              
+            </p>
+
+            <p align="center">
+              <label align="left" for="serial"> Número de tarjeta de crédito:
+              <input class= "form-control" type="text" name="serial" id="serial" minlength="20" placeholder="Serial" maxlength="20" required> 
+              </label>
+            </p>
+
+            <p align="center">
+               <label align="left" for="cvc"> Código de seguridad
+               <input class= "form-control" type="tel" pattern="[0-9]{3}" name="cvc" placeholder="CVC Formato: 123" id="cvc" required>
+              </label>
+            </p>
+
+            <p align="center">
+              <label align="left"> Fecha de vencimiento (Mes/ Año):</label>
+              <br>
+                <select name="month">
+                  {% for i in w|rjust:12 %}
+                    <option value="1">{{ forloop.counter }}</option>
+                  {%endfor%}
+                </select>
+                /
+                <select <select name="year">
+                  {% for i in z|rjust:31 %}
+                    <option value="1">{{ forloop.counter }}</option>
+                  {%endfor%}
+                </select>
+              
+            </p>
+
+            <p align="center">
+               <label align="left" for="first_name"> Nombre del titular
+               <input class= "form-control" type="tex" name="first_name" placeholder="Nombre" id="first_name" required>
+              </label>
+            </p>
+            
+            <p align="center">
+               <label align="left" for="last_name"> Apellido del titular
+               <input class= "form-control" type="tex" name="last_name" placeholder="Segundo nombre" id="last_name" required>
+              </label>
+            </p>
+
+            <br>
+            <p align="center">
+                <button type="submit" href="{% url 'billing:checkout' %}"  class="btn btn-primary ">
+                Finalizar pago</button>
+            </p>
+          </form>
+        </div>
+      </div><p align="center">
+    <a href="{% url 'cart:cart_home' %}"> Volver atrás</a></p>
+  </div>
+</div>
+{% endblock %}

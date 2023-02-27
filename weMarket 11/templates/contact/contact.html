@@ -1,0 +1,199 @@
+{% extends 'base/base.html' %}
+
+{% block title%}
+  <title>{{enterprise.name}} | Contacto</title>
+  {% endblock %}
+
+{% load staticfiles %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+
+{% block maincontent %}
+
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">¿Quiénes somos?
+      <small></small>
+    </h1>
+
+    <!-- Intro Content -->
+    <div class="row">
+      <div class="col-lg-6">
+        <img class="img-fluid rounded mb-4" src="{% url 'contact:preload_image' pk=0 option=2 %}" alt="">
+      </div>
+      <div class="col-lg-6">
+        <h2>Nuestra visión</h2>
+        <h4><p><p align="justify">{{contactdata.vision|linebreaks}}</p></p></h4>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Team Members -->
+    {% if members %}
+    <h2>Conoce a nuestro equipo</h2>
+    <div class="row">
+      {% for members in members %}
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100 text-center">
+          <img class="card-img-top" src="{% url 'contact:preload_image' pk=members.id option=1 %}" alt="">
+          <div class="card-body">
+            <h4 class="card-title">{{members.name}}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{members.position}}</h6>
+            <p class="card-text">{{members.description}}</p>
+          </div>
+          <div class="card-footer">
+            <a href="mailto:{{members.email}}">{{members.email}}</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Contacto
+      <small></small>
+    </h1>
+
+    <!-- Content Row -->
+    {% if contactdata.mapActivated %}
+    <div class="row">
+      <!-- Map Column -->
+      <div class="col-lg-8 mb-4">
+        <!-- Embedded Google Map -->
+        <iframe width="100%" height="400px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{contactdata.googleMaps}}"></iframe>
+      </div>
+      <!-- Contact Details Column -->
+      <div class="col-lg-4 mb-4">
+        <h3>Detalles de contacto</h3>
+        <p>
+          {{enterprise.direction|linebreaks}}
+        </p>
+        <p>
+          <abbr title="Teléfono">Teléfono</abbr>: {{enterprise.phone_number}}
+        </p>
+        <p>
+          <abbr title="Correo electrónico">Correo electrónico</abbr>:
+          <a href="mailto:{{enterprise.email}}">{{enterprise.email}}
+          </a>
+        </p>
+        <p>
+          <abbr title="Horario">Horario</abbr>: {{contactdata.horario}}
+        </p>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    {% else %}
+
+    <div class="row">
+      <!-- Map Column -->
+      <div class="col-lg-8 mb-4">
+
+        <img class="img-fluid rounded" img src="{% url 'contact:preload_image' pk=0 option=4 %}" width="450" alt="">
+      </div>
+      <!-- Contact Details Column -->
+      <div class="col-lg-4 mb-4">
+        <h3>Detalles de contacto</h3>
+        <p>
+          {{enterprise.direction|linebreaks}}
+        </p>
+        <p>
+          <abbr title="Teléfono">Teléfono</abbr>: {{enterprise.phone_number}}
+        </p>
+        <p>
+          <abbr title="Correo electrónico">Correo electrónico</abbr>:
+          <a href="mailto:{{enterprise.email}}">{{enterprise.email}}
+          </a>
+        </p>
+        <p>
+          <abbr title="Horario">Horario</abbr>: {{contactdata.horario}}
+        </p>
+      </div>
+    </div>
+
+    {% endif %}
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+
+
+{% endblock %}

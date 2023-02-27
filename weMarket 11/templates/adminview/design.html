@@ -1,0 +1,136 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+          </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Diseño / Escoger paleta de colores</li>{% endblock %}
+
+
+
+{% block maincontent %}
+  
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:design'%}"><img class="card-img-top" src="{% static 'img/palette.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:choosedesign'%}"><img class="card-img-top" src="{% static 'img/internet.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:edit_design' %}"><img class="card-img-top" src="{% static 'img/pencil.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+
+  <!-- Page Content -->
+  
+
+  <div class="container">
+<hr>
+  {% if saveChanges %}
+    
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      <strong>Listo!</strong> Los cambios se han guardado exitosamente.
+    </div>
+    {% endif %}
+    <!-- Heading Row -->
+    {% if templates %}
+      <div class="row align-items-center my-5">
+        <div class="col-lg-7">
+          {% for templates in templates %}
+            {% if templates.temp_selected %}
+              <img class="img-fluid rounded mb-4 mb-lg-0" src="{% url 'adminview:preload_image' pk=templates.pk %}" alt="">
+            </div>
+            <!-- /.col-lg-8 -->
+            <div class="col-lg-5">
+              <h1 class="font-weight-light"><strong>{{templates.template_name}}</strong></h1>
+              <p>{{templates.description}}</p>
+              <a class="btn btn-success" href="{% url 'adminview:save_template' id_template=templates.id %}">Guardar cambios</a>
+            </div>
+            <!-- /.col-md-4 -->
+          </div>
+          <!-- /.row -->
+        {% endif %}
+      {% endfor %}
+
+      <!-- Call to Action Well -->
+      <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card-body">
+          <p class="text-white m-0">Escoge la paleta de colores que mejor se ajuste a tu tienda!</p>
+        </div>
+      </div>
+
+      <!-- Content Row -->
+      
+        <div class="row">
+          {% for templates in templates %}
+            <div class="col-md-4 mb-5">
+              <div class="card h-100">
+                <div class="card-body">
+                  <img class="card-img-top" src="{% url 'adminview:preload_image' pk=templates.pk %}" alt=""></a>
+                  <h5 class="card-title"><strong>{{templates.template_name}}</strong></h5>
+                  <p class="card-text">{{templates.description}}</p>
+                </div>
+                <div class="card-footer">
+                  {% if templates.isSelected %}
+                    <a href="" class="btn btn-danger btn-sm">Actualmente usado</a>
+                  {% else %}
+                    <a href="{% url 'adminview:select_template' id_template=templates.id %}" class="btn btn-primary btn-sm">Seleccionar</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+  </div>
+</div>
+<p class="small text-center text-muted my-5">
+  <em>weMarket | Página de administrador</em>
+</p>
+  {% endif %}
+
+{% endblock %}

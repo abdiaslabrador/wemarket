@@ -1,0 +1,148 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+<title>{{enterprise.name}} | Políticas</title>
+{% endblock %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block cat %}
+<h6 class="collapse-header">Categorías:</h6>
+  {% if categoria %}
+  {% for categoria in categoria %}
+    <a class="collapse-item" href="{% url 'search:index_by_category' id_category=categoria.pk %}">{{categoria.nombre_clasificacion}}</a>
+  {% endfor %}
+  <a class="collapse-item" href="{% url 'search:index' %}"><strong>Mostrar todo</strong></a>
+  {% endif %}
+{% endblock %}
+
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+{% block maincontent %}
+
+<!-- Page Heading/Breadcrumbs -->
+    <h1><strong>Políticas y términos de uso</strong>
+    </h1>
+    <div class="mb-4" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="card-header" role="tab" id="headingOne">
+          <h5 class="mb-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Condiciones de uso</a>
+          </h5>
+        </div>
+        {% if policy %}
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+        {% else %}
+        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+        {% endif %}
+          <div class="card-body">
+            {{polic.conditions|linebreaks}}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="headingTwo">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Política de privacidad
+            </a>
+          </h5>
+        </div>
+        {% if privacy %}
+        <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo">
+        {% else %}
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+        {% endif %}
+          <div class="card-body">
+            {{polic.privacy|linebreaks}}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header" role="tab" id="headingThree">
+          <h5 class="mb-0">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Aviso de cookies</a>
+          </h5>
+        </div>
+        {% if cookies %}
+        <div id="collapseThree" class="collapse show" role="tabpanel" aria-labelledby="headingThree">
+        {% else %}
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+        {% endif %}
+          <div class="card-body">
+            {{polic.cookies|linebreaks}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

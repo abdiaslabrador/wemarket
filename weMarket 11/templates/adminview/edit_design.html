@@ -1,0 +1,373 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+          </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Diseño / Escoger plantillas</li>{% endblock %}
+
+
+
+{% block maincontent %}
+  
+ 
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:design'%}"><img class="card-img-top" src="{% static 'img/palette.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:choosedesign'%}"><img class="card-img-top" src="{% static 'img/internet.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:edit_design' %}"><img class="card-img-top" src="{% static 'img/pencil.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+
+
+  <!-- Page Content -->
+  
+
+<div class="container emp-profile"><hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-img">
+                            <div class="list-group-item">
+                              {% if enterprise.logo %}
+                                <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% url 'contact:preload_image' pk=0 option=4 %}" alt="">
+                              {% else %}
+                                <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/profileimg.png'%}" alt="">
+                              {% endif %}
+                              </div>
+                            <div class="list-group">
+                                <div class="file btn btn-lg btn-primary">
+                                    {{enterprise.name}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="profile-head">
+                            {% if saveChanges %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            <strong>Listo!</strong> Los cambios se han guardado exitosamente.
+                            </div>
+                            {% endif %}
+                                    <h3>
+                                        Edición de páginas
+                                    </h3>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="tab" data-toggle="tab" href="#data" role="tab" aria-controls="home" aria-selected="true">Mis datos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab" data-toggle="tab" href="#index" role="tab" aria-controls="profile" aria-selected="false">Página Índice</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab" data-toggle="tab" href="#contact" role="tab" aria-controls="profile" aria-selected="false">Página de Contacto</a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" id="tab" data-toggle="tab" href="#policy" role="tab" aria-controls="profile" aria-selected="false">Políticas de uso</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {% block mainuser %}
+                        <div class="col-md-15">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="data" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row">
+                                            <div class="col-md-12">
+                                              <div class="col-sm-15">
+          <form method="POST" action='' enctype="multipart/form-data">
+            {% csrf_token %}
+              <h4><strong>Datos de empresa:</strong></h4>
+              <!--Foto del miembro de equipo-->
+              <h6><strong>Subir logo:</strong></h6>
+              {{form.logo}}
+
+                  <!--Full name-->
+                    <div class="form-group row">
+                      
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <strong>Nombre de empresa:</strong>
+                      </div>
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <strong>Número de teléfono:</strong>
+                      </div>
+                      <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input class= "form-control" type="text" name="name" maxlength="20"  value="{{enterprise.name}}">
+                      </div>
+                      <div class="col-sm-6">
+                          <input class= "form-control" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="phone_number" value="{{enterprise.phone_number}}">
+                      </div>
+                    </div>
+
+            <!--Username and email is same in this case-->
+                    <strong>Correo electrónico:</strong>
+                    <div class="form-group">
+                      <input class= "form-control" type="email" name="email" value="{{enterprise.email}}" >
+                    </div>
+
+            <!--Date of foundation-->
+                    <strong>Fecha de fundación:</strong>
+                    <div class="form-group">
+                      <input class= "form-control" type="date" name="date" value="{{enterprise.date|date:'Y-m-d'}}" >
+                    </div>
+
+            <!--Direction-->
+                    <strong>Dirección:</strong>
+                    <div class="form-group">
+                      <textarea class= "form-control"  rows="6" name="direction" 
+                      value="{{enterprise.direction}}">{{enterprise.direction}}</textarea>
+                    </div>
+
+            <!--Description-->
+                    <strong>Descripción de empresa:</strong>
+                    <div class="form-group">
+                      <textarea  class="form-control" rows="6" type="text" name="description" value="{{enterprise.description}}">{{enterprise.description}}</textarea>
+                    </div>
+
+            <!--Employees-->
+                    <strong>Número de empleados (aproximado):</strong>
+                    <div class="form-group">
+                      <input class= "form-control" type="number" name="employees" min=1 value="{{enterprise.employees}}">
+                    </div>
+
+            <!--Copyright-->
+                    <strong>Aviso de copyright:</strong>
+                    <div class="form-group">
+                      <input class= "form-control" type="text" name="copyright" value="{{enterprise.copyright}}" >
+                    </div>
+
+            <!--Button-->
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="home-tab">
+                              <h4><strong>Edición de la página de contacto:</strong></h4>
+                              <div class="card mb-3">
+                                  <div class="card-header">
+                                    <i class="fas fa-chart-bar"></i>
+                                  <strong>Miembros de la empresa</strong></div>
+                                  <div class="card-body">
+                                    <div class="table-responsive table-striped">
+                                      <table class="table table-hover" id="dataTable" width="150%" cellspacing="0" >
+                                        <thead>
+                                          {% if members %}
+                                          <tr><th>Nombre</th>
+                                            <th>Cargo</th>
+                                            <th>Editar</th>
+                                            <th>Eliminar</th>
+                                          </tr>
+                                          {% endif %}
+                                        </thead>
+                                        <tbody>
+                                          {% if members %}
+                                          {% for members in members %}
+                                          <tr>
+                                            <td>{{members.name}}</td>
+                                            <td>{{members.position}}</td>
+                                            <td><a href="{% url 'adminview:edit_member' id_member=members.id %}" data-toggle="tooltip" title="Editar""><img src="{% static 'img/edit.png'%}"width="40px" height="40px" /></td></a>
+                                            <td><a href="{% url 'adminview:delete_member' id_member=members.id %}" data-toggle="tooltip" title="Eliminar""><img src="{% static 'img/delete.png'%}"width="40px" height="40px" /></td></a>
+                                          </tr>
+                                          {% endfor %}
+                                          {% else %}
+                                          No hay miembros añadidos.
+                                          {% endif %}
+                                        </tbody>
+                                      </table>
+                                      <div class="row">
+                                        <div class="col-lg-5 mt-4 mb-3">
+                                          <a href="{% url 'adminview:add_member' %}" class="btn btn-primary btn-user btn-block"><img src="{% static 'img/plus.png'%}"width="20px" height="20px" />
+                                            Añadir miembro
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div><hr>
+                                <h4><strong>Detalles de empresa, ubicación y contacto</strong></h4>
+                                  <div class="container">
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                              <div class="form-group"><div class="form-group">
+                      
+                                                Define cuál es tu visión y objetivo:
+                                                <textarea class= "form-control"  rows="6" name="vision" 
+                                                  value="{{contact.vision}}">{{contact.vision}}</textarea>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                          <img src="{% static 'img/meta-300x300.jpg'%}" alt="" width="210px" height="210px">
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <div class="form-group">
+                                            ¿Cuál es tu horario de atención al cliente?
+                                            <input class= "form-control" type="text" name="horario" value="{{contact.horario}}" >
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                        <div class="col-sm-6">
+                                              <div class="form-group">
+                                                <img src="{% static 'img/750x450.png'%}" alt="" width="300px" height="200px">
+                                                  <strong><p>Resolución recomendada: 750x450px.</p></strong>
+                                                {{form2.image_path}}
+                                              </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                              <h5><strong>Foto de cabecera:</strong></h5>
+                                          <h7>¡Anímate a subir una foto de cabecera!, al hacerlo transmites mayor confianza a los usuarios, puede ser una foto de tu equipo, lugar de tu trabajo, logotipo o alguna foto de portada que vaya de acuerdo con lo que ofrezcas.</h7>
+                                        </div>
+                                      </div>
+                                      <img src="{% static 'img/googlemaps.jpg'%}" alt="" width="740px" height="400px">
+
+                                      <strong>¿Incluir dirección de Google Maps en tu página de contacto?
+                                      <div class="col-sm-6">{{form2.mapActivated}} Sí/No</div></strong>
+                                      <strong>Dirección en Google Maps:</strong>
+                                      <div class="form-group">
+                                        <input class= "form-control" type="text" name="googleMaps" value="{{contact.googleMaps}}" >
+                                      </div>
+                                      </div>
+                                  </div> 
+
+                              <div class="tab-pane fade" id="policy" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row">
+                                  
+                                        <div class="col-sm-12">
+                                          <h4><strong>Edición de las condiciones de uso:</strong></h4>
+                                          <p align="center">
+                                          <img src="{% static 'img/leyes.jpg'%}" alt="" width="320px" height="300px"></p>
+                                          <p><strong>NOTA:</strong>Tu tienda virtual debe cumplir con una serie de requisitos que forman parte de la <strong>LSSI</strong> (Ley de Servicios de la Sociedad de la Información y de Comercio Electrónico), que obliga a mostrar a los usuarios ciertas políticas de privacidad, uso y de cookies como requisito para tener una tienda de comercio electrónico, de lo contrario puedes obtener una penalización que van desde los <strong>30.000€</strong> hasta <strong>120.000€</strong></p>
+                                          <p>En <strong>weMarket</strong> te ofrecemos una plantilla para que redactes tus términos y condiciones de uso de acuerdo a tus políticas empresariales, preservando por supuesto las leyes vigentes de protección a la privacidad del usuario y el uso de cookies. Redáctalo con mucha cautela.</p>
+                                          <div class="form-group"><div class="form-group">
+                      
+                                                <strong>Condiciones de uso:</strong>
+                                                <textarea class= "form-control"  rows="6" name="conditions" 
+                                                  value="{{polic.conditions}}">{{polic.conditions}}</textarea>
+                                                </div>
+                                              <div class="form-group"><div class="form-group">
+                      
+                                                <strong>Política de privacidad:</strong>
+                                                <textarea class= "form-control"  rows="6" name="privacy" 
+                                                  value="{{polic.privacy}}">{{polic.privacy}}</textarea>
+                                                </div>
+                                              </div>
+                                              <div class="form-group"><div class="form-group">
+                      
+                                                <strong>Aviso de cookies:</strong>
+                                                <textarea class= "form-control"  rows="6" name="cookies" 
+                                                  value="{{polic.cookies}}">{{polic.cookies}}</textarea>
+                                                </div>
+                                              </div>
+                                              <div class="form-group"><div class="form-group">
+                                                <hr></div>
+                                                
+                                                </div>
+                                              </div>
+                                            </div>
+                                      </div>
+                                                    
+                              </div> 
+
+                              <div class="tab-pane fade" id="index" role="tabpanel" aria-labelledby="home-tab">
+
+                              <h4><strong>Edición de la página índice:</strong></h4>
+                                
+                                <h5><strong>Título de cabecera:</strong></h5>
+                                  <div class="row">
+                                    <div class="col-sm-12">
+                                      <div class="form-group">
+                                          <input class= "form-control" type="text" name="title" value="{{indexPage.title}}" >
+                                          <sm>Busca definir en menos de 10 palabras algún mensaje que sea atractivo para alguien que visita tu página por primera vez.</sm>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <h5><strong>Carrusel:</strong></h5>
+                                  <img src="{% static 'img/carrousel.png'%}" alt="" width="740px" height="300px">
+                                  <div class="row">
+                                        <div class="col-sm-6"><p>El carrusel es una presentación de diapositivas en ciclo a través de elementos. Coloca 4 imágenes para el carrusel.</p>
+                                              <div class="form-group"><div class="form-group">
+                                                
+                                                <strong>Resoluciones recomendadas:</strong>
+                                                <p><strong>Basic Index: </strong>1200x350px.</p>
+                                                <strong>Modern Business: </strong>1100x350px.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                              <button type="button" class="btn btn-warning">
+                                                <strong>Imagen 1:</strong>
+                                                {{form3.carrousel1}}
+                                                <strong>Imagen 2:</strong>
+                                                {{form3.carrousel2}}
+                                                <strong>Imagen 3:</strong>
+                                                {{form3.carrousel3}}
+                                                <strong>Imagen 4:</strong>
+                                                {{form3.carrousel4}}
+                                              </button>
+                                        </div>
+                                      </div>
+                                    <h5><strong>Portada:</strong></h5>
+                                    <img src="{% static 'img/portada.png'%}" alt="" width="760px" height="280px">
+                                    <div class="row">
+                                      <p>En el <strong>Heroic Commerce</strong> está disponible la <strong>foto de portada</strong>, el cual es una foto que tiene un texto encima. Recuerda usar una imagen clara que haga que no se pueda leer el texto.</p>
+                                      <p><strong>Subir foto de portada:</strong></p>
+                                      <div class="col-sm-12 "><p>{{form3.portada}}</p></div>
+                                      </div>
+                                      <div class="col-md-15"><hr>
+                                      
+                            </div> 
+                          </div> 
+
+                      <button class="btn btn-primary " type="submit">Guardar cambios</button></div>
+                      {% endblock %}
+                      </form></td></td></tr></tbody></table></div></div></div></div></form></div></div></div></div></div></div></div></div></div></div></div>
+    <p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+{% endblock %}

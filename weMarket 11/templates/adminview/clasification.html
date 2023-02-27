@@ -1,0 +1,118 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+  </a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+    <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+</li> 
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+</li>
+{% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Categorías</li>{% endblock %}
+
+{% block maincontent %}
+<!-- Page Content -->
+
+<div class="row">
+  <div class="col-lg-7">
+
+    <form action="{% url 'adminview:searchClasif' %}" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-0 my-2 my-md-20 navbar-search">
+      {% csrf_token %}
+      <div class="input-group">
+        <input type="text" id="busqueda" class="form-control bg-light border-1 small" placeholder="Buscar categoría..." aria-label="Search" aria-describedby="basic-addon2" name="busqueda">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">
+            <img src="{% static 'img/search.png'%}"width="20px" height="20px" />
+          </button>
+        </div>
+      </div>
+    </form>
+  </a>
+
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-bar"></i>
+    Categorías disponibles</div>
+    <div class="card-body">
+      <div class="table-responsive table-bordered">
+        <table class="table table-hover" id="" width="100%" cellspacing="0">
+          <thead>
+            {% if items %}
+            <tr><th>Nombre</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+            {% endif %}
+          </thead>
+          <tbody>
+            {% if items %}
+            {% for items in items %}
+            <tr>
+              <td>{{items.nombre_clasificacion}}</td>
+              <td><a href="category/edit/{{items.id}}" data-toggle="tooltip" title="Editar""><img src="{% static 'img/edit.png'%}"width="40px" height="40px" /></td></a>
+              <td><a href="delete_clasification/{{items.id}}" data-toggle="tooltip" title="Eliminar""><img src="{% static 'img/delete.png'%}"width="40px" height="40px" /></td></a>
+            </tr>
+            {% endfor %}
+            {% else %}
+            {% if isSearch %}
+            <strong><h7>Búsqueda sin resultados.</h7></strong>
+            {% else %}
+            <strong><h7>No hay registros.</h7></strong>
+            {% endif %}
+            {% endif %}
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col-lg-5 mt-4 mb-3">
+            <a href="{% url 'adminview:add_clasification' %} " class="btn btn-primary btn-user btn-block"><img src="{% static 'img/plus.png'%}"width="20px" height="20px" />
+              Añadir nueva categoría
+            </a>
+          </div>
+        </div>
+        {% if items.has_next or items.has_previous %}
+        <ul class="pagination justify-content-center">
+          {% if items.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ items.previous_page_number }}">Anterior</a></li>
+          {% else %}
+          <li class="page-item disabled"><a class="page-link">Anterior</a></li>
+          {% endif %}
+          {% for page in items.paginator.page_range %}
+          <li class="page-item {% if items.number == page %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+          {% endfor %}
+          {% if items.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ items.next_page_number }}">Siguiente</a></li>
+          {% else %}
+          <li class="page-item disabled"><a class="page-link">Siguiente</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-4">
+  <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" ;" <img class="card-img" img src="{% static 'img/132.png'%}" alt="">
+  <h4 class="mb-3">Las categorías son necesarias para clasificar tus productos correctamente.
+  </h4>
+</div>
+</div>
+<p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+</div>
+{% endblock %}

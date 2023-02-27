@@ -1,0 +1,258 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+<title>{{articulo.nombre_producto}}</title>
+{% endblock %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block cat %}
+<h6 class="collapse-header">Categorías:</h6>
+  {% if categoria %}
+  {% for categoria in categoria %}
+    <a class="collapse-item" href="{% url 'search:index_by_category' id_category=categoria.pk %}">{{categoria.nombre_clasificacion}}</a>
+  {% endfor %}
+  <a class="collapse-item" href="{% url 'search:index' %}"><strong>Mostrar todo</strong></a>
+  {% endif %}
+{% endblock %}
+
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+
+{% block maincontent %}
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      {% if related %}
+      <div class="col-lg-3">
+        <div class="list-group">
+          <strong>Artículos relacionados</strong>
+          {% for related in related %}
+            <a href="{% url 'article:show_article' id_article=related.pk %}" class="list-group-item"><img class="card-img-top img-fluid" src="{% url 'home:preload_image' pk=related.pk %}" alt=""><hr>{{related.nombre_producto}}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <!-- /.col-lg-3 -->
+      {% if related %}
+      <div class="col-lg-9">
+        {% else %}
+      <div class="col-lg-12">
+      {% endif %}
+
+        <div class="card mt-4">
+          {% if advice %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            <strong>Comentario eliminado.</strong>
+                            </div>
+          {% endif %}
+          <img class="card-img-top img-fluid" src="{% url 'home:preload_image' pk=articulo.pk %}" alt="">
+          <div class="card-body">
+            <h3 class="card-title">{{articulo.nombre_producto}}</h3>
+            <h4>{{articulo.precio}} bsS</h4>
+            <p class="card-text">{{articulo.long_descripcion|linebreaks}}</p>
+ 
+            {%if articulo.agotado == False and articulo.cantidad  is not 0%}
+                <form method="POST" action="{% url 'cart:add_to_cart' articulo.id %}">
+                    {% csrf_token %}
+                    <label for="cantidad_id">Cantidad:</label>
+                    <input type="number" name="qty" min=1 max={{articulo.cantidad}} value="1" id="cantidad_id"> 
+                    {% if item in cart.cartitem_set.all%}
+                        <p align="center"><button type="submit" class="btn btn-primary">¡Agregar mas cantidad!</button><br><br>
+                        <a href="{% url 'cart:remove_from_cart' item.id %}" class="btn btn-primary ">En en el carro. ¿Eliminar?</a></p>
+                    {% else %}
+                        <br><br>
+                        <!--Botón que añade al carrito-->
+                        <p align="center"><button type="submit" class="btn btn-success">Añadir al carro<img src="{% static 'img/carro.png'%}"width="30px" height="30px" /></button></p>
+                    {% endif %}
+                </form>
+            {%else%}
+                <p><strong>¡AGOTADO!</strong></p>
+            {%endif%}
+
+            {% if articulo.valoracion == 0 %}
+            <h5>Sin valoración</h5>
+              <span class="text-warning">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
+            0 estrellas
+            <p>¡Adquiere este artículo y sé el primero en calificar!</p>
+            {% endif %}
+            {% if articulo.valoracion == 1 %}
+              <span class="text-warning">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+            1 estrella
+            {% endif %}
+            {% if articulo.valoracion == 2 %}
+              <span class="text-warning">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+            2 estrellas
+            {% endif %}
+            {% if articulo.valoracion == 3 %}
+              <span class="text-warning">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+            3 estrellas
+            {% endif %}
+            {% if articulo.valoracion == 4 %}
+              <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+             4 estrellas
+            {% endif %}
+            {% if articulo.valoracion == 5 %}
+            <h5>Artículo destacado!</h5>
+              <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+            5 estrellas
+            {% endif %}
+          </div><div class="media mb-4">
+            {% if user.is_authenticated == True %}
+            {% if user.photo %}
+            <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" style="width: 13rem;" <img class="card-img-top" img src="{% url 'contact:preload_image' pk=user.pk option=3 %}" alt="">
+                {% else %}
+                <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" style="width: 13rem;" <img class="card-img-top" img src="{% static 'img/profileimg.png'%}" alt="">
+                {% endif %}
+                  <div class="col-sm-8"> 
+                  <div class="media-body">
+                    <h5 class="mt-0"><strong>{{user.first_name}} {{user.last_name}}</strong></h5>
+                      Deja un comentario: 
+                      <form method="POST" action="{% url 'article:show_article' id_article=articulo.pk %}">
+                        {% csrf_token %}
+                        <strong>Asunto:</strong>
+                          <div class="form-group">
+                            <input class= "form-control" type="text" name="asunto">
+                          </div>
+                          <strong>Contenido:</strong>
+                          <div class="form-group">
+                            <textarea class= "form-control"  rows="3" name="contenido" id="contenido"
+                            value=""></textarea>
+                          </div>
+                          <button class="btn btn-warning " type="submit">Añadir comentario</button>
+                      </form>
+                    
+                </div>
+              </div>
+              {% else %}
+              <div class="col-sm-8"> 
+              <h5>Debes <a href="{% url 'login' %}" class="card-link"><strong>Iniciar sesión</strong></a> para poder comentar.</h5></div>
+              {% endif %}
+            </div>
+      <!-- /.col-lg-9 -->
+
+      <div class="col-sm-12">  
+        <div class="jumbotron">
+          <h2><strong>Todas las opiniones</strong></h2><hr>
+            <ul class="list-group">
+              {% if comments %}
+                  {% for comments in comments %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-1">
+                                {% if comments.id_user_fk.photo %}
+                                  <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" style="width: 6rem;" <img class="card-img-top" img src="{% url 'contact:preload_image' pk=comments.id_user_fk.id option=3 %}" alt="">
+                                  {% else %}
+                                  <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" style="width: 6rem;" <img class="card-img-top" img src="{% static 'img/profileimg.png'%}" alt="">
+                              {% endif %}</div>
+                            <div class="col-xs-10 col-md-11">
+                                <div><h5><strong>
+                                        {% if comments.asunto %}
+                                        {{comments.asunto}}
+                                          {% else %}
+                                          Sin asunto
+                                        {% endif %}
+                                      </strong></h5>
+                                    <div class="mic-info">
+                                        Por: <strong>{{comments.id_user_fk.first_name}} {{comments.id_user_fk.last_name}} </strong>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    {{comments.contenido}}
+                                </div>
+                                <p>
+                                   <strong>el {{comments.fecha}}</strong>
+                                {% if user.is_staff%}
+                                <a href="{% url 'article:delete_comment' id_article=articulo.id id_comment=comments.id %}"  data-toggle="tooltip" title="Eliminar">Eliminar comentario<img src="{% static 'img/delete.png'%}"width="30px" height="30px" /></a></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                      {% endfor %}
+                    {% else %}
+                    <h5>No hay comentarios aún... Sé el primero!</h5>
+                    {% endif %}
+                </ul>
+        </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+{% endblock %}

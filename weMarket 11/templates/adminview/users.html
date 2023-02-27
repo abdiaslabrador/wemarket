@@ -1,0 +1,102 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Usuarios</li>{% endblock %}
+
+{% block maincontent %}
+  <!-- Page Content -->
+
+
+        <div class="row">
+          <div class="col-lg-8">
+            {% if advice %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            <strong>Error!</strong> Cierre sesión antes de intentar eliminar a este usuario.
+          </div>
+           {% endif %}
+           {% if error %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            <strong>Error!</strong> Cierre sesión antes de intentar editar a este usuario.
+          </div>
+           {% endif %}
+            <div class="card mb-3">
+              <div class="card-header">
+              <i class="fas fa-chart-bar"></i>
+              Usuarios registrados</div>
+              <div class="card-body">
+              <div class="table-responsive table-bordered">{% if users %}
+              <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr><th>Nombre</th>
+                    <th>Rol de usuario</th>
+                    <th>Fecha de registro</th>
+                    <th>Email</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for users in users %}
+                <tr>
+                    <td>{{users.first_name}} {{users.last_name}}</td>
+                    {% if users.is_staff %}
+                        {% if users.is_superuser %}
+                        <td>Administrador</td>
+                        {% else %}
+                        <td>Moderador</td>
+                        {% endif %}
+                    {% else %}
+                      <td>Corriente</td>
+                    {% endif %}
+                    <td>{{users.date_joined|date:'Y-m-d H:i'}}</td>
+                    <td>{{users.email}}</td>
+                    <td><a href="{% url 'adminview:edit_user' id_user=users.pk active_user=user.id%}" data-toggle="tooltip" title="Editar"><img src="{% static 'img/edit.png'%}"width="40px" height="40px" /></a></td>
+                    <td><a href="{% url 'adminview:user_delete' id_user=users.pk actual_user=user.id%}" data-toggle="tooltip" title="Eliminar"><img src="{% static 'img/delete.png'%}"width="40px" height="40px" /></a></td></td></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                {% endif %}
+              </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <img src="{% static 'img/avatares-usuarios-vector_23-2147497256.jpg'%}" alt="" width="400px" height="400px">
+            <h5 class="mb-1">Como administrador tienes la opción de poder administrar, editar y eliminar a los usuarios registrados como desees.
+            </h5>
+          </div>
+        </div>
+      <p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+  </div>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+<title>{{enterprise.name}} | Carrito</title>
+{% endblock %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+{% block maincontent %}
+
+{%if empty_cart%}
+  <div class="card">
+    <div class="card-body">
+      <h1 style="text-align:center;">{{empty_message}}</h1>
+      <p align="center"><img src="{% static 'img/familia.jpg'%}" width="600px" height="500px" /></p>
+    </div>
+  </div>
+{%else%}
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title"><strong>Artículos agregados al carro</strong></h4>
+      <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>N*</th>
+
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Valoración</th>
+              <th>Precio por unidad</th>
+              <th>Cantidad</th>
+              <th>Sub-total</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <!--Here is that i  was talking in the cart view-->
+            {% for item in cart.cartitem_set.all %}
+              <tr>
+                <td scope="row">{{forloop.counter}}</td>
+                <td><a href="{% url 'article:show_article' item.id_productos_fk.id%}">{{item.id_productos_fk.nombre_producto}}</a></td>
+                <td>{{item.id_productos_fk.id_clasificacion_fk}}</td>
+                <td>{{item.id_productos_fk.valoracion}}</td>
+                <td>{{item.id_productos_fk.precio}} bsS</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.total}}</td>
+                <td>
+                  <a href="{% url 'cart:remove_from_cart' item.id %}">¿Eliminar?</a>
+                </td>
+              </tr>
+          {% endfor %}
+        </tbody>
+           <tr>
+                <td align="left" colspan="7"><strong>Subtotal: {{cart.subtotal}} bsS</strong></td>
+           </tr>
+           <tr>
+                <td align="left" colspan="7"><strong>Total(+%16): {{cart.total}} bsS</strong></td>
+           </tr>
+      </table>
+    <a href="{% url 'billing:credit_card' %}"><img src="{% static 'img/paypalbutton.png'%}" alt="" width="700px" height="100px"></a>
+  </div>
+  </div>
+</div>
+<div class="col-lg-13">   
+ <div class="col-sm-5">
+  <a href="javascript:history.back()" class="card-link">Volver atrás</a>
+    <a href="{% url 'home:home'" class="card-link">Ir a inicio</a>
+  </div>
+</div>
+{%endif%}
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+  // Call the dataTables jQuery plugin
+$(document).ready(function() {
+  $('#dataTable').DataTable();
+});
+
+</script>
+
+{% endblock %}

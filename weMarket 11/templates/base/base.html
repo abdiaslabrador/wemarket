@@ -1,0 +1,343 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  {% block title%}
+  <title>{{enterprise.name}} | Inicio</title>
+  {% endblock %}
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  {% block palette %}<link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">{% endblock %}
+
+</head>
+
+<body id="page-top">
+  {% block sidebar %}
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home_app:index' %}">
+        <div class="sidebar-brand-icon rotate-n-0">
+          <img src="{% url 'contact:preload_image' pk=0 option=4 %}"width="100px" height="100px" />
+        </div>
+        
+      </a>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home_app:index' %}">
+          <img src="{% static 'img/home.png'%}"width="20px" height="20px" />
+          <span>Inicio</span></a>
+      </li>
+
+      <!-- Heading -->
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        tienda virtual
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <img src="{% static 'img/folder.png'%}"width="20px" height="20px" />
+          <span>Categorías</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <!--esto es nuevo-->
+            {% block cat %}
+              <h6 class="collapse-header">Categorías:</h6>
+              {% if categoria %}
+                  {% for categoria in categoria %}
+                      {% if categoria.existencia is True%}
+                      <a class="collapse-item" href="{% url 'search:index_by_category' id_category=categoria.pk %}">{{categoria.nombre_clasificacion}}</a>
+                      {% endif%}
+                  {% endfor %}
+              <a class="collapse-item" href="{% url 'search:index' %}"><strong>Mostrar todo</strong></a>
+              {% else %}
+                  <h8>No hay categorias disponibles</h8>
+              {% endif %}
+          {% endblock %}
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart_home' %}">
+          {%if request.session.cart_total%}
+          <strong>{{request.session.cart_total}}</strong>
+          {%else%}
+          <strong>0</strong>
+          {%endif%}
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo2" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="{% url 'home:policy' option=1%}">Condiciones de uso</a>
+            <a class="collapse-item" href="{% url 'home:policy' option=2%}">Política de privacidad</a>
+            <a class="collapse-item" href="{% url 'home:policy' option=3%}">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+      
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+    {% endblock %}
+
+    {% block navbar %}
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search --><form action="{% url 'search:searchProduct' %}" method="POST" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            {% csrf_token %}
+            <div class="input-group">
+              <input type="text" id="busqueda" class="form-control bg-light border-0 small" placeholder="Búsqueda..." aria-label="Search" aria-describedby="basic-addon2" name="busqueda">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+         {%if user.is_staff or user.is_superuser%} 
+          <a href="{% url 'adminview:adminview' %}" class="btn btn-primary">
+                      Vista de administrador
+            </a>
+          {%endif%}
+
+          {%if user.is_authenticated == True%}
+          
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+
+            
+            <!-- Nav Item - User Information -->
+           <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.first_name|capfirst}} {{user.last_name|capfirst}}</span>
+                {% if user.photo %}
+                <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" style="width: 5rem;" <img class="card-img-top" img src="{% url 'contact:preload_image' pk=user.pk option=3 %}" alt="">
+                {% else %}
+                <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" style="width: 5rem;" <img class="card-img-top" img src="{% static 'img/profileimg.png'%}" alt="">
+                {% endif %}
+              </a>
+
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="{% url 'myuser:myuser' %}">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Mi perfil
+                </a>
+                <a class="dropdown-item" href="{% url 'myuser:configuration' %}">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Configuración
+                </a>
+                <a class="dropdown-item" href="{% url 'myuser:history' %}">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Historial
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Cerrar Sesión
+                </a>
+              </div>
+            </li>
+          </ul>
+          {% else %}
+          <div class="mr-2 d-none d-lg-inline text-gray-600 small">
+                <a class="dropdown-item" href="{% url 'login' %}">
+                  <div class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></div>
+                  Iniciar sesión
+                </a>
+          </div>
+          {%endif%}
+        </nav>
+        <!-- End of Topbar -->
+        {% endblock %}
+
+        <!-- Main content of the Page -->
+
+        {% block maincontent %}
+        {% endblock %}
+
+        <!-- End of Main content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>{{enterprise.copyright}}</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  {% block modals %}
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">¿Estás seguro?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Selecciona cerrar sesión para salir de la cuenta actual.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="{% url 'log_out' %}">Cerrar sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addtocartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar al carrito</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">¡El producto ha sido agregado al carrito exitósamente!.</div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="button" data-dismiss="modal">Listo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">¿Está seguro?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">¿Desea continuar?.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+          <a class="btn btn-primary" href="myuser/login">¡Si quiero!</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  {% endblock %}
+
+  {% block extrajs %}
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js'%}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'vendor/chart.js/Chart.min.js'%}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js'%}"></script>
+  <script src="{% static 'vendor/datatables/jquery.dataTables.js'%}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js'%}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'js/demo/chart-area-demo.js'%}"></script>
+  <script src="{% static 'js/demo/chart-pie-demo.js'%}"></script>
+  <script src="{% static 'js/bootstrap.min.js'%}"></script>
+  <script src="{% static 'js/demo/datatables-demo.js'%}"></script>
+
+  {% endblock %}
+</body>
+
+</html>

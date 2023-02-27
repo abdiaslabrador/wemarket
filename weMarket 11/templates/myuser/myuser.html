@@ -1,0 +1,208 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block title%}
+  <title>{{enterprise.name}} | Mi usuario</title>
+  {% endblock %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+
+
+{% block maincontent %}
+
+{% block userconf %}
+<div class="container emp-profile">
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-img">
+                            <div class="list-group-item">
+                                {% if user.photo %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% url 'contact:preload_image' pk=user.pk option=3 %}" alt="">
+                                {% else %}
+                                    <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/profileimg.png'%}" alt="">
+                                {% endif %}
+                                </div>
+                            <div class="list-group">
+                                <div class="file btn btn-lg btn-primary">
+                                    {{user.first_name}} {{user.last_name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h3>
+                                        Datos Personales
+                                    </h3>
+                        {% endblock %}
+                        {% block tabs %}
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Mi perfil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Historial</a>
+                                </li>
+                            </ul>
+                        </div>
+                        {% endblock %}
+
+                        {% block mainuser %}
+                        <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                    <div class="col-md-6">
+                                                <label></label>
+                                    </div> 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Nombres</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.first_name}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Apellidos</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.last_name}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Correo Electrónico</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.email}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Dinero</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.money}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Teléfono</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.phone_number}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Fecha de nacimiento</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.date_of_birth}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Dirección</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.direction}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Contraseña</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="{% url 'myuser:reset_password' %}">
+                                            actualizar contraseña
+                                        </a>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <a href="{% url 'myuser:configuration' %}" class="btn btn-lg btn-success">
+                                            Editar Perfil
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label></label>
+                                    </div> 
+                        {% endblock %}
+
+                        {% block historytab %}
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Usuario desde</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>{{user.date_joined}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Rol de usuario</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>
+                                                        <!--Is superuser-->
+                                                        {%if user.is_superuser %}
+                                                             Administrador
+                                                    
+                                                        <!--Is staff-->
+                                                        {%elif user.is_staff%}
+                                                             Moderador
+
+                                                        <!--Is active-->
+                                                        {%elif user.is_active%}
+                                                             Corriente
+                                                        {%endif%}
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        <a href="{% url 'myuser:history' %}" class="btn btn-lg btn-success">
+                                            Ver historial de compras
+                                        </a>
+                                        <div class="col-md-6">
+                                                <label></label>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>           
+        </div>
+                        {% endblock %}
+{% endblock %}

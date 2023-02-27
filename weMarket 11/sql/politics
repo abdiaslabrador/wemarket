@@ -1,0 +1,106 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.6
+-- Dumped by pg_dump version 10.6
+
+-- Started on 2019-07-10 13:09:58
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2925 (class 0 OID 41957)
+-- Dependencies: 204
+-- Data for Name: adminview_politics; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.adminview_politics (id, conditions, cookies, privacy) VALUES (0, 'SECCIÓN 1 - ¿QUÉ HACEMOS CON TU INFORMACIÓN?
+
+Cuando compras algo de nuestra tienda, como parte del proceso de compra venta, nosotros recolectamos la información personal que nos das. Tales como nombre, dirección y correo electrónico.
+
+Cuando navegas en nuestra tienda, también recibimos de manera automática la dirección de protocolo de internet de tu computadora (IP) con el fin de proporcionarnos información que nos ayuda a conocer acerca de su navegador y sistema operativo.
+
+Email marketing: Con tu permiso, podríamos enviarte correos electrónicos acerca de nuestra tienda, nuevos productos y otras actualizaciones
+
+
+SECCIÓN 2 – CONSENTIMIENTO
+
+Cuando nos provees tu información personal para completar una transacción, verificar tu tarjeta de crédito, crear una orden,  concretar un envío o hacer una devolución, implicamos que aceptas la recolección y uso por esa razón específica solamente.
+
+Si te pedimos tu información personal por una razón secundaria, como marketing, te pediremos directamente tu expreso consentimiento, o te daremos la oportunidad de negarte.
+
+Si luego de haber aceptado cambias de opinión, puedes anular tu consentimiento para que te contactemos, por la recolección, uso o divulgación de tu información, en cualquier momento, contactándonos a weMarket@gmail.com o llámanos al: +58 414 690 7921
+
+
+SECCIÓN 3 - DIVULGACIÓN
+
+Podemos divulgar tu información personal si se nos requiere por ley o si violas nuestros Términos de Servicio.
+
+SECCIÓN 4 – TIENDA VIRTUAL
+
+Nuestra tienda se encuentra alojada en weMarket Inc. Ellos nos proporcionan la plataforma de comercio electrónico en línea que nos permite venderte nuestros productos y servicios.
+
+Tus datos se almacenan a través del almacenamiento de datos de weMarket, bases de datos y la aplicación general de weMarket. Tus datos se almacenan en un servidor seguro detrás de un firewall.
+
+SECCIÓN 5 - SERVICIOS DE TERCERAS PARTES
+
+En general, los proveedores de terceras partes utilizados por nosotros solo recopilarán, usarán y divulgarán tu información en la medida que sea necesaria para que les permita desempeñar los servicios que nos proveen.
+
+Sin embargo, algunos proveedores de servicios de terceros, tales como pasarelas de pago y otros procesadores de transacciones de pago, tienen sus propias políticas de privacidad con respecto a la información que estamos obligados a proporcionarles para las transacciones relacionadas con las compras.
+
+Para estos proveedores, te recomendamos que leas las políticas de privacidad para que puedas entender la manera en que tu información personal será manejada.
+
+En particular, recuerda que algunos proveedores pueden estar ubicados o contar con instalaciones que se encuentran en una jurisdicción diferente a ti o nosotros.  Asique si deseas proceder con una transacción que involucra los servicios de un proveedor a terceros, tu información puede estar sujeta a las leyes de la jurisdicción (jurisdicciones) en que se encuentra el proveedor de servicios o sus instalaciones.
+
+A modo de ejemplo, si te encuentras en Canadá y tu transacción es procesada por una pasarela de pago con sede en Estados Unidos, entonces tu información personal utilizada para completar la transacción puede ser sujeto de divulgación en virtud de la legislación de Estados Unidos, incluyendo la Ley Patriota.
+
+Una vez que abandonas el sitio web de nuestra tienda o te rediriges a un sitio o aplicación de terceros, ya no estás siendo regulados por la presente Política de Privacidad o los Términos de Servicio de nuestra página web.
+
+SECCIÓN 6 - ENLACES:
+
+Cuando haces clic en enlaces de nuestra tienda, puede que seas redirigido fuera de nuestro sitio.  No somos responsables por las prácticas de privacidad de otros sitios y te recomendamos leer sus normas de privacidad.
+
+
+SECCIÓN 7 - SEGURIDAD
+
+Para proteger tu información personal, tomamos precauciones razonables y seguimos las mejores prácticas de la industria para asegurarnos de que no haya pérdida de manera inapropiada, mal uso, acceso, divulgación, alteración o destrucción de la misma.
+
+SI nos proporcionas la información de tu tarjeta de crédito, dicha información es encriptada mediante la tecnología Secure Socket Layer (SSL) y se almacena con un cifrado AES-256.  Aunque ningún método de transmisión a través de Internet o de almacenamiento electrónico es 100% seguro, seguimos todos los requisitos de PCI-DSS e implementamos normas adicionales aceptadas por la industria.', 'La plataforma weMarket utiliza cookies para el rápido manejo de la web, para el inicio de sesión y para realizar búsquedas más ágiles a la hora de indexarlo en la web.
+
+weMarket no usará ninguno de tus datos sin tu previo consentimiento. Por lo cual, cualquier incumplimiento de nuestra parte podrás notificárnoslo y podrá llevar a la penalización del sitio con respecto a las leyes de la LSSI (Ley de Servicios de la Sociedad de la Información y de Comercio Electrónico).
+
+Sin olvidar, por supuesto las cookies utilizadas de acuerdo al navegador web que usted esté utilizando al momento que usted entre en nuestra plataforma de tienda virtual.
+
+Al usar nuestra plataforma usted estará de acuerdo en aceptar el uso de cookies para el fácil manejo del mismo.', 'Al utilizar este sitio, declaras que tienes al menos la mayoría de edad en tu estado o provincia de residencia, o que tienes la mayoría de edad en tu estado o provincia de residencia y que nos has dado tu consentimiento para permitir que cualquiera de tus dependientes menores use este sitio.
+
+Nos reservamos el derecho de modificar esta política de privacidad en cualquier momento, asique por favor revísala frecuentemente.  Cambios y aclaraciones entrarán en vigencia inmediatamente después de su publicación en el sitio web.  Si hacemos cambios materiales a esta política, notificaremos aquí que ha sido actualizada, por lo que cual estás enterado de qué información recopilamos, cómo y bajo qué circunstancias, si las hubiere, la utilizamos y/o divulgamos.
+
+Si nuestra tienda es adquirida o fusionada con otra empresa, tu información puede ser transferida a los nuevos propietarios, para que podamos seguir vendiéndote productos.
+
+Si quieres: acceder, corregir, enmendar o borrar cualquier información personal que poseamos sobre ti, registrar una queja, o simplemente quieres más información contacta a nuestro Oficial de Cumplimiento de Privacidad weMarket@gmail.com.');
+
+
+--
+-- TOC entry 2933 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: adminview_politics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.adminview_politics_id_seq', 1, false);
+
+
+-- Completed on 2019-07-10 13:09:59
+
+--
+-- PostgreSQL database dump complete
+--
+

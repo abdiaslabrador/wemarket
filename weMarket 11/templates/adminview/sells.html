@@ -1,0 +1,94 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+  <span class="sr-only">(current)</span>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+</li>
+{% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Ventas</li>{% endblock %}
+
+<!-- Page Content -->
+{% block maincontent %}
+
+<div class="row">
+  <div class="col-lg-8">
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-chart-bar"></i>
+    Registro de ventas</div>
+    <div class="card-body">
+      <div class="table-responsive table-bordered">
+
+        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr><th>Código de factura</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for bill in bills %}
+                 <tr>
+                    <td><strong>#{{bill.id_codigo_retiro}}</strong></td>
+                    <td>{{bill.id_usuario_fk.email}}</td>
+                    <td>{{bill.fecha|date:'Y-m-d'}}</td>
+                    <td>{{bill.total}}</td>
+                    {% if bill.entregado %}
+                        <td><strong>Entregado</strong></td>
+                    {%else%}
+                        <td><strong>Por entregar</strong></td>
+                    {%endif%}
+
+                    <!-- Edit -->
+                    <td>
+                      <a href="{% url 'adminview:admin_given' bill.id %}" data-toggle="tooltip" title="Editar"><img src="{% static 'img/edit.png'%}"width="40px" height="40px" /></a>
+                    </td>
+
+                    <!-- Delete -->
+                    <td><a href="{% url 'adminview:delete_bill' bill.id %}" data-toggle="tooltip" title="Eliminar"><img src="{% static 'img/delete.png'%}"width="40px" height="40px" /></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-4">
+    <img src="{% static 'img/560d0255d849a8aa015a9bdcee45af54.jpg'%}" alt="" width="400px" height="350px">
+    <h5 class="mb-1">
+      Hey! Recuerda colocar como <b>'entregado'</b> la factura, cuando ya la persona haya retirado los artículos personalmente.
+    </h5>
+</div></div>
+
+<p class="small text-center text-muted my-5">
+  <em>weMarket | Página de administrador</em>
+</p>
+
+{% endblock %}

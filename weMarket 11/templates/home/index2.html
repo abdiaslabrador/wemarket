@@ -1,0 +1,242 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+<link href="{% static 'css/modern-business.css'%}"><rel="stylesheet">
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+
+{% block maincontent %}
+
+
+
+<!-- Page Content -->
+  <div class="container">
+
+    <header>
+    <div id="demo" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                  <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                      <li data-target="#demo" data-slide-to="1"></li>
+                        <li data-target="#demo" data-slide-to="2"></li>
+                          <li data-target="#demo" data-slide-to="3"></li>
+                          </ul>
+                          <!-- The slideshow -->
+                             <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                  <img src="{% url 'home:preload_presentation' option=1 %}" alt="">
+                                    </div>
+                                      <div class="carousel-item">
+                                        <img src="{% url 'home:preload_presentation' option=2 %}" alt="">
+                                        </div>
+                                      <div class="carousel-item">
+                                    <img src="{% url 'home:preload_presentation' option=3 %}" alt="">
+                                  </div>
+                                  <div class="carousel-item">
+                                    <img src="{% url 'home:preload_presentation' option=4 %}" alt="">
+                                  </div>
+                                </div>
+                              <!-- Left and right controls -->
+                            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                          <span class="carousel-control-prev-icon"></span>
+                        </a>
+                      <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </a>
+                </div>
+  </header>
+    <h1 class="my-4">{{indexPage.title}}</h1>
+
+    {% if blockcat %}
+    
+    <!-- Marketing Icons Section -->
+    <div class="row">
+      {% for blockcat in blockcat %}
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <h4 class="card-header">{{blockcat.nombre_clasificacion}}</h4>
+          <div class="card-body">
+            <p class="card-text">{{blockcat.descripcion|linebreaks}}</p>
+          </div>
+          <div class="card-footer">
+            <a href="{% url 'search:index_by_category' id_category=blockcat.pk %}" class="btn btn-primary">Mostrar categoría</a>
+          </div>
+        </div>
+      </div>{% endfor %}
+    </div>
+    {% endif %}
+    <!-- /.row -->
+
+    <!-- Portfolio Section -->
+    <h2>Últimos artículos</h2>
+<div class="row">
+
+          {% if articulo %}
+            {% if articulo.existencia == TRUE %}
+            {% for articulo in articulo %}
+              <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                <a href="{% url 'article:show_article' id_article=articulo.pk %}"><img class="card-img-top" src="{% url 'home:preload_image' pk=articulo.pk %}" alt=""></a>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <hr class="sidebar-divider">
+                    <a href="{% url 'article:show_article' id_article=articulo.pk %}">{{articulo.nombre_producto}}</a>
+                  </h4>
+                  <h5>{{articulo.precio}} bsS</h5>
+                  <p class="card-text">{{articulo.Descripcion}}</p>
+                </div>
+
+                <!-- evaluamos si no está agotado -->
+                
+                {%if articulo.agotado == False and articulo.cantidad  is not 0%}
+                  
+                    {% if articulo in items%}
+                        <p align="center"><button class="btn btn-danger">Añadido al carro<img src="{% static 'img/carro.png'%}"width="30px" height="30px"></button>
+                    {% else %}
+                        <form method="POST" action="{% url 'cart:add_to_cart' articulo.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="qty" min=1 max={{articulo.cantidad}} value="1" id="cantidad_id">
+                            <!--Botón que añade al carrito-->
+                            <p align="center"><button type="submit" class="btn btn-success">Añadir al carro<img src="{% static 'img/carro.png'%}"width="30px" height="30px" /></button></p>
+                        </form>
+                    {% endif %}
+                 
+              {%else%}
+                 <p align="center"><strong>¡AGOTADO!</strong></p>
+              {%endif%}
+                
+                <div class="card-footer">
+                    {% if articulo.valoracion == 0 %}
+                      <span class="text-warning">&#9734; &#9734; &#9734; &#9734; &#9734;</span>
+                    <h6>{{articulo.id_clasificacion_fk}}</h6>
+                    <h6>Sin valoración</h6>
+                    {% endif %}
+                    {% if articulo.valoracion == 1 %}
+                      <span class="text-warning">&#9733; &#9734; &#9734; &#9734; &#9734;</span>
+                    <h6>{{articulo.id_clasificacion_fk}}</h6>
+                    {% endif %}
+                    {% if articulo.valoracion == 2 %}
+                      <span class="text-warning">&#9733; &#9733; &#9734; &#9734; &#9734;</span>
+                    <h6>{{articulo.id_clasificacion_fk}}</h6>
+                    {% endif %}
+                    {% if articulo.valoracion == 3 %}
+                      <span class="text-warning">&#9733; &#9733; &#9733; &#9734; &#9734;</span>
+                    <h6>{{articulo.id_clasificacion_fk}}</h6>
+                    {% endif %}
+                    {% if articulo.valoracion == 4 %}
+                      <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                     <h6>{{articulo.id_clasificacion_fk}}</h6>
+                    {% endif %}
+                    {% if articulo.valoracion == 5 %}
+                      <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;</span>
+                    <h6>{{articulo.id_clasificacion_fk}}</h6>
+                    <h6>Artículo destacado!</h6>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+          {% else %}
+            <div class="col-lg-4 col-md-6 mb-4">
+            <h5>No hay artículos disponibles.</h5></div>
+          {% endif %}
+          </div>
+
+    <!-- Features Section -->
+    <div class="row">
+      <div class="col-lg-6">
+        <h2>¡Bienvenido a {{enterprise.name}}!</h2>
+        <p>{{enterprise.description|linebreaks}}</p>
+      </div>
+      <div class="col-lg-6">
+        <img class="img-fluid rounded" img src="{% url 'contact:preload_image' pk=0 option=2 %}" alt="">
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <!-- Call to Action Section -->
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <p>Alguna duda o inquietud por favor contáctenos inmediatamente, oprimiendo el botón de al lado le atenderemos lo más pronto posible.</p>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-lg btn-secondary btn-block" href="{% url 'contact:contact' %}">Contáctanos!</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+  {% endblock %}

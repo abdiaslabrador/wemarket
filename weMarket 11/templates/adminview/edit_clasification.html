@@ -1,0 +1,64 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+  </a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+    <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+</li> 
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+</li>
+{% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Categorías</li>{% endblock %}
+
+{% block maincontent %}
+<!-- Page Content -->
+
+<div class="row">
+  <div class="col-lg-7">
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-chart-bar"></i>
+      Nueva categoría</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <tbody>
+              <form method="post">
+                <h5 class="mb-3">Nombre de categoría</h5>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+              </form>
+            </tbody>
+          </table>
+          <a href="javascript:history.back()"><h6>Volver atrás</h6></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <img class="rounded-circle px-3 px-sm-4 mt-3 mb-4" ;" <img class="card-img" img src="{% static 'img/132.png'%}" alt="">
+    <h4 class="mb-3">Las categorías son necesarias para clasificar tus productos correctamente.
+    </h4>
+  </div>
+</div>
+<p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+</div>
+{% endblock %}

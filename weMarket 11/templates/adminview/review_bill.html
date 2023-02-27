@@ -1,0 +1,87 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+</li>
+<li class="nav-item active">
+  <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+  <span class="sr-only">(current)</span>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+</li>
+{% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Ventas</li>{% endblock %}
+
+<!-- Page Content -->
+{% block maincontent %}
+
+<div class="row">
+  <div class="col-lg-7">
+  </a>
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-chart-bar"></i>
+      <strong>Ticket: {{bill.id_codigo_retiro}} </strong>
+  </div>
+    <div class="card-body">
+      <div class="table-responsive">
+
+  
+      <p>Estado: {% if bill.entregado %}Entregado{%else%}Por entregar{%endif%}</p>
+      <p>Fecha: {{bill.fecha}}
+      <p>Hora: {{bill.hora}}</p>
+        {%for bill_det in bill.factura_det_set.all%}
+        <p>(x{{bill_det.quantity}})    {{bill_det.id_productos_fk.nombre_producto}}.... {{bill_det.total}} bsS</p>
+        {%endfor%}
+      <p>Subtotal: {{bill.subtotal}} bsS</p>
+      <p>Total (+16%): {{bill.total}} bsS</p>
+  <hr>
+
+  {%if bill.valorado%}
+        <p>Valorado: Si</p>
+      {%else%}
+        <p>Valorado: No</p>
+      {%endif%}
+ 
+      {%if bill.entregado%}
+        <p>Fecha de entrega: {{bill.fecha_entregado|date:'Y-m-d H:i'}}</p>
+      {%endif%}
+      <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <br>
+        <button type="submit" class="btn btn-success">Guardar</button>
+      </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-4">
+    <img src="{% static 'img/560d0255d849a8aa015a9bdcee45af54.jpg'%}" alt="" width="400px" height="350px">
+    <h5 class="mb-1">
+      Hey! Recuerda colocar como <b>'entregado'</b> la factura, cuando ya la persona haya retirado los artículos personalmente.
+    </h5>
+</div></p></div></div></div></div></div>
+
+<p class="small text-center text-muted my-5">
+  <em>weMarket | Página de administrador</em>
+</p>
+
+{% endblock %}

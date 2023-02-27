@@ -1,0 +1,43 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.6
+-- Dumped by pg_dump version 10.6
+
+-- Started on 2019-07-10 13:09:32
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2925 (class 0 OID 41949)
+-- Dependencies: 202
+-- Data for Name: adminview_indexdesign; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.adminview_indexdesign (id, width_field, height_field, carrousel1, carrousel2, carrousel3, carrousel4, title, portada) VALUES (0, 4529, 3481, 'uploads/0/img/pres1.png', 'uploads/0/img/pres2.png', 'uploads/0/img/pres3.png', 'uploads/0/img/pres4.png', '¡Lo tenemos para tí!', 'uploads/0/img/weMarketvec_5AMwoB1.png');
+
+
+--
+-- TOC entry 2933 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: adminview_indexdesign_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.adminview_indexdesign_id_seq', 1, false);
+
+
+-- Completed on 2019-07-10 13:09:32
+
+--
+-- PostgreSQL database dump complete
+--
+

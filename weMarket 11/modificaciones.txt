@@ -1,0 +1,70 @@
+1/7/2019
+reunión del grupo
+	1-Se solucionaron problemas de integración con la base de datos
+	2-Se modificaron las variables width y height a la posibilidad de estodos nulos
+	3-En el área de administrador se tienen los formularios de contacto de la página, index y cookies, estos estaban dando problemas, se procedió a su corrección
+	4-No se pudo dar solución al problema asociado a las fotos de perfil de cada usuario
+	5-Se procedió a llamar a 2 empresas de pasarelas de pago tales como istanpago y payrepay, pero solicitaban requisitos que no estaban a nuestro alcanze como tener requisitos lss, empresas jurídicas banesco y algunas otras cosas extras.
+	6-al mismo tiempo se tomaron las deciciones de crear una mini interfaz  bancaria, y hacer el software modo simulación. Esta simulacón consiste en cuando el usuario pulse el botón "pagar" ubicado en la ventana del "carrito", sera dirigido a la ventana de confirmacion de compra, aquí el usuario verifica el monto e ingresa los datos de tarjeta de crédito, pero no será real, no se constara de un tercero o una pasarela de pago. Esto trajo como consecuencia la asignación de un dinero mínimo a cada usuario para proceder con la simulación (la asignación de dinero mínimo es de 10000). Una ves que el usuario ingresa sus datos y se hacen las validaciones dependiendo de si el usuario tiene o no suficiente dinero será dirigido a una página de exito o una diciendo con algún anuncio diciendo dinero insuficiendo.
+
+	Si se procede de una buena correctamente (dinero suficiente e ingreso de datos correctos), será dirigido a una página donde saldra un anuncio de pago exitoso.
+
+	Este pago deberia descontar los artículos del stock, el dinero que poseía el cliente, aparición de la factura en el historial, generación de código qr, generación del código de la factura, aparicón de la venta en la pagina del administrador.
+
+2/7/2019
+reunión del grupo
+	1-solución a las fotos de prefil de cada usuario
+	2-creación de los formularios de tarjeta de crédito pero con errores (no logra enviar los datos ingresados al formulario)
+	3-creación de la vista "success" para un pago exitoso
+	4-creación de la vista "not_money" para un pago saldo insuficiente
+
+
+4/07/2019
+reunión del grupo
+	1-instalación del android studio para el desarrolo de la app
+	2-modificación de la llave foranea del usuario, se hizo de una manera más sencilla
+	3-inddagación del hosting en heroku
+		3.1-registro en la página web del mismo
+	4-se hizo la verificación de si un articulo está agotado se elimina automaticamente del carro de la persona
+	5-modifcaciones de las variables de los nombre de algunas variables en factura
+	6-corregido el problema que se tenía con el botón de "agregar mas articulos" (se ocultaba repentinamente) y se cambío el nombre de este a "remplazar cantidad"
+	7-se añadió el "decorador" de django "@login_required" a varias vistas tales como:
+	 	Todas las que están ubicadas en la app factura
+	 	Myuser Configuración
+	 	Myuser historial
+
+5/07/2019
+	1-Se complementó la opción "historial de cada usuario". Especificamente, el usuario logeado puede ver las facturas que ha echo y poderlas ver detalladamente
+	2-Se añadió la variable agotado a los articulos con la finalidad de verlos y no eliminarlos. Anteriormente se tenía solo la varible existencia, pero al ser esta
+	false se eliminaba el articulo y no se podía ver, con esta varible se puden ver los artículos sin eliminarlos
+	3- modificación de las variables fecha y hora de las facturas, nos dimos cuenta que estas variables sus definiciones estaban mal
+	4-Se hizo la opción de valoración
+	5-Creacion de la factura como tal, se redirige al usuario luego de pagar a una una ventana con un mensaje de pago exitoso, asi como también el usuario es capaz de ver la factura en la venta "historial"
+	6-Creación de las views en factura:
+		Success: ventana que muestra pago exito después de cancelar
+		Not_money: ventana que muestra pago fallido si no se dispone de dinero suficiente
+		Review_bill: ventana que muestra la información de la factura (esta ventana es llamada desde myuser:historial)
+		Bill_value: ventana que permite al usuario valorar los articulos de una factura
+		Change_qty: ventana que se que muestra un mensaje diciendo que el usuario tiene que hacer de nuevo el carro porque la cantidad que tenía de al menos 1 artículo a cambiado
+	7-Se anexaron algunos tratamiento a problemas que se pudieran dar con algunos links tales como:
+		a) Si un usuario intentar entrar en el link de evaluar articulo se comprueba si el articulo ya ha sido entregado, si es así se procede a darle las opcines de poder evaluar los artículos
+		b) Si un usuario intenta entrar en un  link de evaluar artículos todavía no se le han entregado los artículos se dirige a una ventana en la cual se le hace la acotación que es necesario retirarlos
+		c) Si el usuario intenta entrar en un link donde ya el articulo a sido evaluado, este es dirigido a una ventana en la cual  se le hace la acotación
+	8-Se hizo la validación en el botón de cantidades para la evaluación de productos
+
+5/07/2019
+	1- modificacion en la representación de fecha de creación de usuario adminview/users users.html
+	2- Se hizo la validación al momento de corregir o agregar artículos, especificamente en los campos cantidad y precio
+	3- Se hizo la relación entre admin y articulos agotados, y cuando un usuario compra un artículo si la cantidad después de comprar es 0 se coloca en agotado
+
+
+07/11/2019
+	Se modificó el botón de categorias y de artículos de "Guardar cambios" a "Guardar"
+	Se cambio los colores del registro
+	Se corrigió el error de la barra de búsqueda
+	Se corrigió el error en la zona de admin al momento de modificar usuarios. se modificaron las 			templates de adminview/user.html y la view de adminview users
+	Se cargó la foto de Geraldo Pirela
+	También se modificó el form en adminview UserForm en forms.py
+	
+	Hacer la acotación del precio unitario en las facturas a Luis
+

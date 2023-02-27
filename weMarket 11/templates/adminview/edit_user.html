@@ -1,0 +1,130 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Usuarios</li>{% endblock %}
+
+{% block maincontent %}
+  <!-- Page Content -->
+
+
+        
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fas fa-chart-bar"></i>
+                <strong>Editar usuario</strong></div>
+              <div class="card-body">
+                <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <form method="post">
+                  <div class="col-sm-5">
+                    <p align="center">
+                    <div class="profile-img">
+                            <div class="list-group-item">
+                                {% if user.photo %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% url 'contact:preload_image' pk=user.pk option=3 %}" alt="">
+                                {% else %}
+                                    <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/profileimg.png'%}" alt="">
+                                {% endif %}
+                                </div>
+                            <div class="list-group">
+                                <div class="file btn btn-lg btn-primary">
+                                    {{user.first_name|capfirst}} {{user.last_name|capfirst}}
+                                </div>
+                            </div>
+                        </div></p>
+                  </div>
+                  <div class="row">
+                  <div class="col-md-10">
+                    {% csrf_token %}
+                    <!-- {{ form.as_p }} -->
+                    {{form.first_name.errors}}
+                    <!--FIRST NAME-->
+                      <label for="first_name">Nombre
+                      <div class="form-group">
+                        <input class= "form-control" type="text" name="first_name" maxlength="20"  value="{{user.first_name}}" >
+                      </div></label>
+                      <br>
+                    {{form.last_name.errors}}
+                      <label for="last_name">Apellidos
+                       <div class="form-group">
+                          <input class="form-control" type="text" name="last_name" value="{{user.last_name}}" >
+                      </div></label>
+                      <br>
+                    {{form.email.errors}}
+            <!--Username and email is same in this case-->
+                    <label for="email">Correo electrónico
+                    <div class="form-group">
+                      <input class= "form-control" type="email" name="email" value="{{user.email}}" >
+                    </div></label>
+                    <br>
+                    {{form.phone_number.errors}}
+            <!--Phone number-->
+                    <label for="phone_number">Teléfono        
+                    <div class="form-group">
+                      <input class= "form-control" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="phone_number" placeholder="Ejm: 0414-685-4716" value="{{user.phone_number}}" >
+                    </div></label>
+                    <br>
+
+            {{form.direction.errors}}
+            <!--Direction-->
+                    <label for="direction">Dirección</label>        
+                    <div class="form-group">
+                      <textarea id="direction" class= "form-control"  rows="6" name="direction" 
+                      value="{{user.direction}}">{{user.direction}}</textarea>
+                    </div>
+                    <br>
+
+                 
+                {{form.rol.errors}}
+                  <label for="id_rol">Rol de usuario:</label>
+                  <select name="rol" id="id_rol">
+                    <option value='' selected>---</option>
+                    <option value='Corriente'>Corriente</option>
+                    <option value='Moderador'>Moderador</option>
+                    <option value='Administrador'>Administrador</option>
+                  </select>
+
+
+                  </div>
+                  </div></div>
+                <button type="submit" class="btn btn-lg btn-success">Guardar cambios</button>
+            </form>
+          </table><a href="javascript:history.back()"><h6>Volver atrás</h6></a></div></div></div></div>
+          <div class="col-lg-4">
+            <h5 class="mb-1">
+            </h5>
+            <img src="{% static 'img/weMarketvec.png'%}"width="440px" height="370px" />
+              </div>
+            </div>
+          </form>
+          </div>
+        </div>
+      <p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+  </div>
+{% endblock %}

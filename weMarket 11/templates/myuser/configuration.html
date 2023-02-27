@@ -1,0 +1,176 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block title%}
+  <title>{{enterprise.name}} | Configuración</title>
+  {% endblock %}
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+
+
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+
+
+{% block maincontent %}
+
+{% block userconf %}
+<div class="container emp-profile">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="profile-img">
+                            <div class="list-group-item">
+                                {% if user.photo %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% url 'contact:preload_image' pk=user.pk option=3 %}" alt="">
+                                {% else %}
+                                    <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/profileimg.png'%}" alt="">
+                                {% endif %}
+                                </div>
+                            <div class="list-group">
+                                <div class="file btn btn-lg btn-primary">
+                                    {{user.first_name}} {{user.last_name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h3>
+                                        Datos Personales
+                                    </h3>
+                        {% endblock %}
+
+                        {% block mainuser %}
+              
+
+          <hr>
+          <div class="tab-content">
+            <div class="tab-pane active" id="home">
+                  <form method="POST" action='' enctype="multipart/form-data">
+                  {% csrf_token %}          
+                    
+                    <div class="col-sm-8 ">
+                      <strong>{{form.photo}}</strong>
+                   </div>     
+                   <!--FIRST NAME-->
+                      <label for="first_name">Nombre</label>
+                      <div class="form-group">
+                        <input class= "form-control" type="text" name="first_name" maxlength="20"  value="{{user.first_name}}">
+                      </div>
+
+                      <label for="last_name">Apellidos</label>
+                       <div class="form-group">
+                          <input class="form-control" type="text" name="last_name" value="{{user.last_name}}">
+                      </div>
+
+            <!--Username and email is same in this case-->
+                    <label for="last_name">Correo electrónico</label>
+                    <div class="form-group">
+                      <input class= "form-control" type="email" name="email" value="{{user.email}}">
+                    </div>
+
+            <!--Phone number-->
+                    <label for="phone_number">Teléfono</label>        
+                    <div class="form-group">
+                      <input class= "form-control" type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" name="phone_number" placeholder="Formato ejem: 0414-685-4716" value="{{user.phone_number}}">
+                    </div>
+
+            <!--Direction-->
+                    <label for="direction">Dirección</label>        
+                    <div class="form-group">
+                      <textarea id="direction" class= "form-control"  rows="6" name="direction" 
+                      value="{{user.direction}}">{{user.direction}}</textarea>
+                    </div>
+            
+            <!--SUBMIT-->
+                      <div class="form-group">
+                           <div class="col-xs-12">
+                                <br>
+                                <button type="submit" class="btn btn-lg btn-success">Guardar cambios</button>
+                          </div>
+                      </div>
+                </form>
+
+              <a href="javascript:history.back()">Volver atrás</a>
+              <hr>
+              
+    {% endblock %}
+
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+        </div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+{% load qr_code %}
+<title>{{enterprise.name}} | Carrito</title>
+{% endblock %}
+
+{% block palette %}
+
+  {% if templates %}
+    {% if templates.id == 0 %}
+      <link href="{% static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 1 %}
+      <link href="{% static 'css/sb-admin-2 - green.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 2 %}
+      <link href="{% static 'css/sb-admin-2 - light blue.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 3 %}
+      <link href="{% static 'css/sb-admin-2 - red.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 4 %}
+      <link href="{% static 'css/sb-admin-2 - dark.min.css'%}" rel="stylesheet">
+    {% endif %}
+    {% if templates.id == 5 %}
+      <link href="{% static 'css/sb-admin-2 - orange.min.css'%}" rel="stylesheet">
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
+
+{% block nav %}
+
+<li class="nav-item">
+        <a class="nav-link" href="{% url 'cart:cart' id_user=1 %}">
+          <img src="{% static 'img/cart.png'%}"width="20px" height="20px" />
+          <span>Carrito</span></a>
+      </li>
+    
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'contact:contact' %}">
+          <img src="{% static 'img/contact.png'%}"width="20px" height="20px" />
+          <span>Contacto</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <div class="sidebar-heading">
+        Interfaz
+      </div>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'myuser:myuser' %}">
+          <img src="{% static 'img/configuration.png'%}"width="20px" height="20px" />
+          <span>Ajustes</span>
+        </a>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <img src="{% static 'img/politics.png'%}"width="20px" height="20px" />
+          <span>Políticas de uso</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Políticas del sitio:</h6>
+            <a class="collapse-item" href="terms.html">Condiciones de uso</a>
+            <a class="collapse-item" href="privacy.html">Política de privacidad</a>
+            <a class="collapse-item" href="cookies.html">Aviso de cookies</a>
+          </div>
+        </div>
+      </li>
+
+{% endblock %}
+
+{% block maincontent %}
+  
+  {%if empty_bill%}
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title"></h4>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong>Tu transacción fue aprobada.</strong>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+        <h5>Ticket: <strong>#{{bill.id_codigo_retiro}} </strong></h5> 
+        <p>Estado:{% if bill.entregado %} Entregado</p>{%else%}Por entregar</p>{%endif%}
+
+            <p>Fecha: {{bill.fecha}}</p>
+            <p>Hora: {{bill.hora}}</p>
+              {%for bill_det in bill.factura_det_set.all%}
+              <p>(x{{bill_det.quantity}})    {{bill_det.id_productos_fk.nombre_producto}}-----{{bill_det.price_sold}}-----{{bill_det.total}}</p>
+              {%endfor%}
+        <p>Subtotal: {{bill.subtotal}}</p>
+      <p>Total (+16%): {{bill.total}}</p>
+    </div>
+    <div class="col-sm-6">
+            <p align="center">{% qr_from_text  qr_text size=15 %}</p>
+            <h4><p align="center"><strong>QR</strong> generado.</p></h4>
+      </div>
+  </div>
+  {%else%}
+  <h1 style="text-align:center;">{{empty_message}}</h1>
+  {%endif%}
+    </div>
+  </div>
+  
+<div class="col-lg-13">   
+ <div class="col-sm-12">
+  <p align="center">
+    <a href="{% url 'home_app:index' %}" class="card-link">Ir a inicio</a></p>
+  </div>
+</div>
+
+{% endblock %}

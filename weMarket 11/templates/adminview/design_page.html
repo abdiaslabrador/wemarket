@@ -1,0 +1,170 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+          </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Diseño / Escoger plantillas</li>{% endblock %}
+
+
+
+{% block maincontent %}
+  
+ 
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:design'%}"><img class="card-img-top" src="{% static 'img/palette.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:choosedesign'%}"><img class="card-img-top" src="{% static 'img/internet.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+<div class="col-sm-4">
+      <div class="card" style="width:350px">
+        <a href="{% url 'adminview:edit_design' %}"><img class="card-img-top" src="{% static 'img/pencil.png'%}"  alt="Card image">
+          <div class="card-img-overlay">
+      </div>
+    </a>
+  </div>
+</div>
+
+
+  <!-- Page Content -->
+  
+
+  <div class="container">
+  <hr>
+  {% if saveChanges %}
+    
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      <strong>Listo!</strong> Los cambios se han guardado exitosamente, ahora puedes editar la plantilla seleccionada.
+    </div>
+    {% endif %}
+    <!-- Heading Row -->
+    
+    {% if design %}
+      <div class="row align-items-center my-5">
+
+        <div class="col-lg-7">
+
+          {% for design in design %}
+            {% if design.temp_selected %}
+              <div id="demo" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                  <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                      <li data-target="#demo" data-slide-to="1"></li>
+                        <li data-target="#demo" data-slide-to="2"></li>
+                          </ul>
+                          <!-- The slideshow -->
+                             <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                  <img src="{% url 'adminview:preload_carrousel' pk=design.pk option=1 %}" alt="">
+                                    </div>
+                                      <div class="carousel-item">
+                                        <img src="{% url 'adminview:preload_carrousel' pk=design.pk option=2 %}" alt="">
+                                        </div>
+                                      <div class="carousel-item">
+                                    <img src="{% url 'adminview:preload_carrousel' pk=design.pk option=3 %}" alt="">
+                                  </div>
+                                </div>
+                              <!-- Left and right controls -->
+                            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                          <span class="carousel-control-prev-icon"></span>
+                        </a>
+                      <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </a>
+                </div>
+            </div>
+            <!-- /.col-lg-8 -->
+            <div class="col-lg-5">
+              Tipo: <h8><strong>{{design.type_design}}</strong></h8>
+              <h1 class="font-weight-light"><strong>{{design.name}}</strong></h1>
+              <p>{{design.description}}</p>
+              <a class="btn btn-success" href="{% url 'adminview:save_design' id_design=design.pk %}">Aplicar plantilla</a>
+              {% if design.isSelected %}<a class="btn btn-warning" href="{% url 'adminview:edit_design' %}">Configurar plantilla</a>{% endif %}
+            </div>
+            <!-- /.col-md-4 -->
+          </div>
+          <!-- /.row -->
+        {% endif %}
+      {% endfor %}
+
+      <!-- Call to Action Well -->
+      <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card-body">
+          <p class="text-white m-0">Si aplicas un diseño que va de acuerdo con lo que ofreces, tendrás muchas más ventas!.</p>
+        </div>
+      </div>
+
+      <!-- Content Row -->
+      
+        <div class="row">
+          {% for design in design %}
+            <div class="col-md-4 mb-5">
+              <div class="card h-100">
+                <div class="card-body">
+                  <img class="card-img-top" img src="{% url 'adminview:preload_carrousel' pk=design.pk option=2 %}" alt=""></a>
+                  <h5 class="card-title"><strong>{{design.name}}</strong></h5>
+                  <p class="card-text">{{design.description}}</p>
+                  <h8><strong>{{design.type_design}}</strong></h8>
+                </div>
+                <div class="card-footer">
+                  {% if design.isSelected %}
+                    <a href="{% url 'adminview:select_design' id_design=design.pk %}" class="btn btn-danger btn-sm">Actualmente usado</a>
+                  {% else %}
+                    <a href="{% url 'adminview:select_design' id_design=design.pk %}" class="btn btn-primary btn-sm">Seleccionar</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        
+      </div>
+      <!-- /.row -->
+
+    </div>
+  </div>
+</div>
+<p class="small text-center text-muted my-5">
+  <em>weMarket | Página de administrador</em>
+</p>
+    <!-- /.container -->
+  {% endif %}
+
+{% endblock %}

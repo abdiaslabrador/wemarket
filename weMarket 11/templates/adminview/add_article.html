@@ -1,0 +1,73 @@
+{% extends 'base/baseadmin.html' %}
+{% load staticfiles %}
+
+{% block tabcurrent %}
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:adminview' %}">Inicio
+            </a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'adminview:clasification' %}">Categorías
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'adminview:article' %}">Productos</a>
+            <span class="sr-only">(current)</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:sells' %}">Ventas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'adminview:design' %}">Diseño</a>
+          </li> 
+          <li class="nav-item">
+    <a class="nav-link" href="{% url 'adminview:users' %}">Usuarios</a>
+  </li>
+          {% endblock %}
+
+{% block breadcrumb %}<li class="breadcrumb-item active">Productos</li>{% endblock %}
+
+{% block maincontent %}
+  <!-- Page Content -->
+
+        <div class="row">
+          <div class="col-lg-7">
+            <div class="card mb-3">
+              <div class="card-header">
+                <i class="fas fa-chart-bar"></i>
+                Agregar producto</div>
+              <div class="card-body">
+                <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <form method="post" action='' enctype="multipart/form-data">
+                	<div class="col-md-5">
+                        <div class="profile-img">
+                            <div class="list-group-item">
+                              {% if isNew %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% static 'img/1080x1080.png'%}" alt="">
+                                  <h6>Resolución recomendada:</h6>
+                                  <h7> 1080*1080</h7>
+                              {% else %}
+                                  <img class="avatar img-circle img-thumbnail" alt="avatar" img src="{% url 'home:preload_image' pk=articulo.id %}" alt="">
+                              {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+		    	{% csrf_token %}
+		        {{ form.as_p }}
+		    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+		</form>
+          </table><a href="javascript:history.back()"><h6>Volver atrás</h6></a></div></div></div></div>
+          <div class="col-lg-4">
+          	<img src="{% static 'img/handpen.png'%}" alt="" width="400px" height="300px">
+              </div>
+            </div>
+          </form>
+            
+            
+          </div>
+        </div>
+      <p class="small text-center text-muted my-5"><em>weMarket | Página de administrador</em></p>
+  </div>
+{% endblock %}
