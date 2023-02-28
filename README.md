@@ -10,9 +10,13 @@ WeMarket was created to cover the necessity to build an Ecommerce page all-in-on
 The web application has a lot of features that a complete system information for salers must have:
 
 -POS System
+
 -Sales page
+
 -Administration
+
 -Landing Pages
+
 -Lot of templates
 
 Even has a system to check the incoming invoices from the clients that have purchased a product on the ecommerce that can be checked by any QR Viewer Application.
